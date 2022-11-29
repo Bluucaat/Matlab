@@ -1,2 +1,0 @@
-# matviz
-ez a szar
