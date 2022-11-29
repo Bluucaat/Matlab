@@ -1,0 +1,90 @@
+1. Feladat
+
+2. Feladat
+
+3. Feladat
+clear
+syms x y
+f(x,y)=sin(x)-cos(y^2);
+fsurf(f)
+hold on
+plot3(-2.5,1.1,f(-2.5,1.1),'r*','MarkerSize',20)
+
+4. Feladat
+Hamis
+
+5. Feladat
+
+6. Feladat
+clear
+px=[0,0,1,1];
+py=[0,1,0,1];
+pz=[0,1,1,0];
+plot3(px, py, pz, 'b*');
+
+axis equal
+syms t
+hold on
+
+cx(t)=(1-t) * px(1)+t * px(2);
+cy(t)=(1-t) * py(1)+t * py(2);
+cz(t)=(1-t) * pz(1)+t * pz(2);
+
+fplot3(cx,cy,cz,[0 1]); 
+
+dx(t)=(1-t) * px(3)+t * px(4);
+dy(t)=(1-t) * py(3)+t * py(4);
+dz(t)=(1-t) * pz(3)+t * pz(4);
+
+fplot3(dx,dy,dz,[0 1]); 
+
+syms u v
+
+sx(u,v)=(1-v) * cx(u)+v * dx(u);
+sy(u,v)=(1-v) * cy(u)+v * dy(u);
+sz(u,v)=(1-v) * cz(u)+v * dz(u);
+fsurf(sx,sy,sz,[0 1 0 1])
+
+u0 = 0.5;
+dxp(v)=sx(u0, v);
+dyp(v)=sy(u0, v);
+dzp(v)=sz(u0, v);
+
+fplot3(dxp,dyp,dzp,[0 1],'r','LineWidth',2);
+7. Feladat
+clear
+px = [-3 3];
+py = [1 3];
+plot(px,py,'r*')
+axis([-6 6 -1 5])
+axis equal
+hold on
+vx = [2 -2];
+vy = [3 3];
+
+t0 = -1;
+t1 = 1;
+
+syms a3 a2 a1 a0 t
+cx(t) = a3*t^3+a2*t^2+a1*t+a0;
+cxd(t) = diff(cx,t);
+
+eq = [cx(t0) == px(1), cx(t1) == px(2), ...
+    cxd(0.4) == vx(1), cxd(t1) == vx(2)];
+
+m = solve(eq, [a3 a2 a1 a0]);
+x(t) = subs(cx, [a3 a2 a1 a0], [m.a3 m.a2 m.a1 m.a0]);
+
+syms b3 b2 b1 b0
+cy(t) = b3 * t ^3 + b2 * t ^2 + b1 * t + b0;
+cyd(t) = diff(cy,t);
+
+eq = [cy(t0) == py(1), cy(t1) == py(2),...
+    cyd(0.4) == vy(1), cyd(t1) == vy(2)];
+m=solve(eq,[b3 b2 b1 b0]);
+y(t) = subs(cy, [ b3 b2 b1 b0], [m.b3 m.b2 m.b1 m.b0]);
+
+quiver (x(0.4), y(0.4), vx(1), vy(1))
+quiver (x(1), y(1), vx(2), vy(2))
+
+fplot(x, y, [t0 t1])
